@@ -4,17 +4,20 @@
  * JDK: 18 version
  * Date: 15-Jul-22
  */
+
 /*
     he input is the number of bottles, number of prisoners. The program should output the bottles assigned to each prisoner as
     a .csv file. Given the sequence of dead and alive prisoners, it should also output the bottle number which is poisoned.
+
  */
-import java.util.Arrays;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class PrisonersWinePosition {
+public class PrisonersWinePoisoned {
 
     private int NUM_PRISONERS = 10;
     private int NUM_WINES = 1000;
@@ -24,13 +27,19 @@ public class PrisonersWinePosition {
     public HashMap<Character, ArrayList<Integer>> prisoners;
     public ArrayList<String> wines;
 
-    public static void main(String []args) {
+    public PrisonersWinePoisoned() {
+        setUpPrisoners();
+        setUpWines();
+    }
+
+    public static void main(String[] args) {
         // Set up riddle
-        PrisonersWineRiddle riddle = new PrisonersWineRiddle();
+        PrisonersWinePoisoned riddle = new PrisonersWinePoisoned();
         riddle.assignWines();
 
+
         // Choose poisoned bottle and kill off respective prisoners
-        int secretPoison = (int)(Math.random() * (999));
+        int secretPoison = (int) (Math.random() * (999));
         String deadPrisoners = riddle.killPrisoners(secretPoison);
         int verifyPoison = Integer.parseInt(deadPrisoners, 2);
         if (secretPoison != verifyPoison) {
@@ -48,11 +57,6 @@ public class PrisonersWinePosition {
         } else {
             System.out.println("Incorrect! Bottle number " + secretPoison + " was the poisoned one!");
         }
-    }
-
-    public PrisonersWineRiddle() {
-        setUpPrisoners();
-        setUpWines();
     }
 
     public void setUpPrisoners() {
